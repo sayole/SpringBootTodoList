@@ -7,6 +7,6 @@ import org.mapstruct.Mapper;
         injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface TodoMapper {
     Todo todoPostDtoToTodo(TodoDto.Post post);
-//    Todo todoPatchDtoToTodo(TodoDto.Patch patch);
+    Todo todoPatchDtoToTodo(TodoDto.Patch patch);
     //TodoResponseDto들어가야댐
 }

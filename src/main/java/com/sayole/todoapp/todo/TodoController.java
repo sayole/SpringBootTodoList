@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/")
@@ -30,21 +31,27 @@ public class TodoController {
     @PatchMapping("/{todo-id}")
     public ResponseEntity patchTodo(@PathVariable("todo-id") @Positive long todoId,
                                     @Valid @RequestBody TodoDto.Patch requestBody){
-        return new ResponseEntity<>(HttpStatus.OK);
+        requestBody.setId(todoId);
+        Todo todo = mapper.todoPatchDtoToTodo(requestBody);
+        Todo updateTodo = service.updateTodo(todo);
+        return new ResponseEntity<>(updateTodo, HttpStatus.OK);
     }
 
     @GetMapping("/{todo-id}")
     public ResponseEntity getTodo(@PathVariable("todo-id") @Positive long todoId){
-        return new ResponseEntity<>(HttpStatus.OK);
+        Todo foundTodo = service.findTodo(todoId);
+        return new ResponseEntity<>(foundTodo,HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity getTodos(){
-        return new ResponseEntity<>(HttpStatus.OK);
+        List<Todo> todoList = service.findTodos();
+        return new ResponseEntity<>(todoList, HttpStatus.OK);
     }
 
     @DeleteMapping("/{todo-id}")
-    public ResponseEntity deleteTodo(@PathVariable @Positive long todoId){
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity deleteTodo(@PathVariable("todo-id") @Positive long todoId){
+        service.deleteTodo(todoId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

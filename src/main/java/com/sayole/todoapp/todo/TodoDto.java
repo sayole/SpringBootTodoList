@@ -1,29 +1,31 @@
 package com.sayole.todoapp.todo;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-    //TODO 빌더패턴 이해 필요
+//TODO 빌더패턴 이해 필요
 public class TodoDto {
     @Getter
-    @AllArgsConstructor
+    @Setter
     public static class Post {
         @NotBlank(message = "입력 필요")
         private String title;
     }
 
     @Getter
+    @Setter
     public static class Patch {
+        @Setter
         private long id;
 
         @NotBlank
         private String title;
 
-        @NotBlank
+        @NotNull
         private boolean completed;
+
+        private long todoOrder;
     }
 }

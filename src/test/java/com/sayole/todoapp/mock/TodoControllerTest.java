@@ -5,6 +5,8 @@ import com.sayole.todoapp.todo.Todo;
 import com.sayole.todoapp.todo.TodoDto;
 import com.sayole.todoapp.todo.TodoMapper;
 import com.sayole.todoapp.todo.TodoService;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -32,7 +34,7 @@ public class TodoControllerTest {
     @Autowired
     private Gson gson;
 
-    @MockBean
+    @Autowired
     private TodoService service;
 
     @Autowired
@@ -46,7 +48,8 @@ public class TodoControllerTest {
         todo.setTodoOrder(1);
         todo.setCompleted(false);
 
-        given(service.createTodo(Mockito.any(Todo.class))).willReturn(todo);
+        given(service.updateTodo(Mockito.any(Todo.class))).willReturn(todo);
+
         String content = gson.toJson(post);
 
         ResultActions actions =
@@ -63,5 +66,4 @@ public class TodoControllerTest {
                 .andExpect(jsonPath("$.todoOrder").value(todo.getTodoOrder()))
                 .andExpect(jsonPath("$.completed").value(todo.isCompleted()));
     }
-
 }
